@@ -18,6 +18,16 @@ type User struct {
 	Name  string
 }
 
+type ErrorMsg struct {
+	StatusCode int
+	Message    string
+	DocUrl     string `json:"documentation_url"`
+}
+
+func (errorMsg ErrorMsg) Error() string {
+	return fmt.Sprintf("Error code: %v %v: %v\n", errorMsg.StatusCode, errorMsg.Message, errorMsg.DocUrl)
+}
+
 type GithubRepos []GithubRepo
 
 func main() {
@@ -25,11 +35,33 @@ func main() {
 	printRepos()
 }
 
+func get(url string) (response *http.Response, err error) {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return
+	}
+	response, err = client.Do(req)
+	if err != nil {
+		return
+	}
+
+	if response.StatusCode >= 400 {
+		errMsg := ErrorMsg{}
+		json.NewDecoder(response.Body).Decode(&errMsg)
+		errMsg.StatusCode = response.StatusCode
+		err = errMsg
+	}
+	return
+}
+
 // Parse json response using Unmarshal
 func printUser() {
-	client := &http.Client{}
-	req, _ := http.NewRequest("GET", "https://api.github.com/users/leoluz", nil)
-	resp, _ := client.Do(req)
+	resp, err := get("https://api.github.com/users/leoluz")
+	if err != nil {
+		fmt.Println("Error when getting user info:", err)
+		return
+	}
 
 	user := User{}
 	body, err := ioutil.ReadAll(resp.Body)
@@ -43,12 +75,15 @@ func printUser() {
 
 // Parse json response using Decoder
 func printRepos() {
-	client := &http.Client{}
-	req, _ := http.NewRequest("GET", "https://api.github.com/users/leoluz/repos", nil)
-	resp, _ := client.Do(req)
+	resp, err := get("https://api.github.com/users/leoluz/repos")
+	if err != nil {
+		fmt.Println("Error when getting repos:", err)
+		return
+	}
+
 	repos := make(GithubRepos, 0)
 
-	err := json.NewDecoder(resp.Body).Decode(&repos)
+	err = json.NewDecoder(resp.Body).Decode(&repos)
 	if err == nil {
 	} else {
 		fmt.Println("Error:", err)
