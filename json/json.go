@@ -15,8 +15,12 @@ func (person *Person) String() string {
 	return fmt.Sprintf("%v %v\n", person.Firstname, person.Lastname)
 }
 
+func NewPerson(firstname, lastname string) (person *Person) {
+	return &Person{firstname, lastname}
+}
+
 func main() {
-	leoluz := &Person{"Leonardo", "Luz"}
+	leoluz := NewPerson("leo", "Luz")
 	fmt.Println(leoluz.String())
 	personJson, err := json.MarshalIndent(leoluz, "", "\t")
 	if err != nil {
