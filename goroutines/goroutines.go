@@ -2,10 +2,33 @@ package main
 
 import (
 	"fmt"
+	"sync"
+	"time"
 )
 
 func main() {
+	// shows how to use select with channels
 	playPingPong()
+
+	// shows how to sync multiple goroutines waiting untill all are done
+	syncGroup()
+}
+
+func syncGroup() {
+	var control sync.WaitGroup
+	control.Add(3)
+	go printSeconds(5, &control)
+	go printSeconds(10, &control)
+	go printSeconds(3, &control)
+	control.Wait()
+}
+
+func printSeconds(sec int, control *sync.WaitGroup) {
+	defer control.Done()
+	for i := 0; i <= sec; i++ {
+		fmt.Print(i, " ")
+		time.Sleep(time.Second)
+	}
 }
 
 func ping(c chan<- string, done chan<- bool) {
