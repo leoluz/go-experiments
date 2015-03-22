@@ -15,16 +15,16 @@ func main() {
 }
 
 func syncGroup() {
-	var control sync.WaitGroup
-	control.Add(3)
-	go printSeconds(5, &control)
-	go printSeconds(10, &control)
-	go printSeconds(3, &control)
-	control.Wait()
+	var worker sync.WaitGroup
+	worker.Add(3)
+	go printSeconds(5, &worker)
+	go printSeconds(10, &worker)
+	go printSeconds(3, &worker)
+	worker.Wait()
 }
 
-func printSeconds(sec int, control *sync.WaitGroup) {
-	defer control.Done()
+func printSeconds(sec int, worker *sync.WaitGroup) {
+	defer worker.Done()
 	for i := 0; i <= sec; i++ {
 		fmt.Print(i, " ")
 		time.Sleep(time.Second)

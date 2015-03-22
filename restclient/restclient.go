@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 type GithubRepo struct {
@@ -13,15 +14,38 @@ type GithubRepo struct {
 }
 
 type User struct {
-	Login string
-	Id    int32
-	Name  string
+	Login       string
+	Id          int32
+	Name        string
+	MemberSince time.Time `json:"created_at"`
+	IsAdmin     bool      `json:"site_admin"`
+	ServiceName string
 }
 
 type ErrorMsg struct {
 	StatusCode int
 	Message    string
 	DocUrl     string `json:"documentation_url"`
+}
+
+type user User
+
+//Example of a custom json unmarshaler
+func (u *User) UnmarshalJSON(userJson []byte) (err error) {
+
+	type location struct {
+		Location string
+	}
+	l := location{}
+	user := user{}
+
+	if err = json.Unmarshal(userJson, &user); err == nil {
+		*u = User(user)
+		if err = json.Unmarshal(userJson, &l); err == nil && l.Location != "" {
+			u.Name += " from " + l.Location
+		}
+	}
+	return
 }
 
 func (errorMsg ErrorMsg) Error() string {
@@ -69,8 +93,8 @@ func printUser() {
 		fmt.Println(err)
 	}
 	err = json.Unmarshal(body, &user)
-	fmt.Println("User:")
-	fmt.Printf("* %+v(%v): %v\n", user.Login, user.Id, user.Name)
+	fmt.Printf("%v user:\n", user.ServiceName)
+	fmt.Printf("* %+v(%v): %v - is admin: %v - member since: %v\n", user.Login, user.Id, user.Name, user.IsAdmin, user.MemberSince)
 }
 
 // Parse json response using Decoder
