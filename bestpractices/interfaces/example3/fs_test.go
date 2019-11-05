@@ -1,11 +1,11 @@
-package consumer_test
+package fs_test
 
 import (
 	"errors"
 	"testing"
 
 	"github.com/AppDirect/go-assert/v2/assert"
-	"github.com/leoluz/go-experiments/bestpractices/interfaces/consumer"
+	fs "github.com/leoluz/go-experiments/bestpractices/interfaces/example3"
 )
 
 type FileMock struct {
@@ -37,7 +37,7 @@ func TestRead(t *testing.T) {
 		mock := NewFileMock(expected, nil)
 
 		// when
-		actual, err := consumer.Read("/some/dir", mock)
+		actual, err := fs.Read("/some/dir", mock)
 
 		// then
 		assert.Nil(t, err)
@@ -50,7 +50,7 @@ func TestRead(t *testing.T) {
 		mock := NewFileMock("", errors.New("some error"))
 
 		// when
-		content, err := consumer.Read("/some/dir", mock)
+		content, err := fs.Read("/some/dir", mock)
 
 		// then
 		assert.NotNil(t, err)
@@ -63,7 +63,7 @@ func TestRead(t *testing.T) {
 		mock := NewFileMock("", nil)
 
 		// when
-		content, err := consumer.Read("", mock)
+		content, err := fs.Read("", mock)
 
 		// then
 		assert.NotNil(t, err)
@@ -76,10 +76,10 @@ func TestOSRead(t *testing.T) {
 	t.Run("will read /etc/hosts successfully", func(t *testing.T) {
 		// given
 		t.Parallel()
-		f := new(consumer.File)
+		f := new(fs.File)
 
 		// when
-		content, err := consumer.Read("/etc/hosts", f)
+		content, err := fs.Read("/etc/hosts", f)
 
 		// then
 		assert.Nil(t, err)
