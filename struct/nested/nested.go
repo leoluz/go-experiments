@@ -19,6 +19,6 @@ type Person struct {
 
 func main() {
 	p := &Person{}
-	p.Name = "Leo"
+	p.A.Name = "Leo"
 	fmt.Printf("p.A.Name=%v\np.B.Name=%v", p.A.Name, p.B.Name)
 }
