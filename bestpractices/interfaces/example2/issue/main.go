@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	url := "http://httpbin.org/status/200"
+	url := "http://httpbin.org/status/202"
 	c := &http.Client{Timeout: time.Second * 10}
 	status, err := DoGet(c, url)
 	if err != nil {

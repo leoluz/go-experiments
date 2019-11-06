@@ -11,7 +11,6 @@ type FileReader interface {
 
 type File struct{}
 
-// https://golang.org/pkg/io/ioutil/#example_ReadFile
 func (f *File) ReadFile(filename string) ([]byte, error) {
 	return ioutil.ReadFile(filename)
 }
