@@ -22,6 +22,7 @@ func main() {
 	sliceTest.PersonByValues[0].Name = "person value modified"
 	sliceTest.PersonByPointers[0].Name = "person pointer modified"
 
+	fmt.Printf("person: %s\n", p1.Name)
 	print(sliceTest)
 }
 

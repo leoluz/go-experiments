@@ -6,8 +6,8 @@ import (
 
 func main() {
 
-	var name *string
-	//name := new(string)
+	//var name *string
+	name := new(string)
 
 	if *name == "" {
 		fmt.Println("string zero value")

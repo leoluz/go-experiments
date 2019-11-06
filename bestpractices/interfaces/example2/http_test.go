@@ -27,7 +27,6 @@ func (mock *httpSenderMock) Do(req *http.Request) (*http.Response, error) {
 
 func TestDoGet(t *testing.T) {
 	t.Run("will send a get request", func(t *testing.T) {
-		t.Skip()
 		// given
 		t.Parallel()
 		mock := new(httpSenderMock)
@@ -43,7 +42,6 @@ func TestDoGet(t *testing.T) {
 		assert.Equals(t, 1, mock.doCount)
 	})
 	t.Run("will return error if url has invalid character", func(t *testing.T) {
-		t.Skip()
 		// given
 		t.Parallel()
 		mock := new(httpSenderMock)
