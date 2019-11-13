@@ -11,13 +11,8 @@ type HeavyProcess struct {
 }
 
 func Process(ctx context.Context) {
-	resultChan := make(chan string)
-	doneChan := make(chan struct{})
-	defer close(resultChan)
-	defer close(doneChan)
-
 	process := new(HeavyProcess)
-	go process.do(resultChan, doneChan)
+	resultChan, doneChan := process.Start()
 
 	for {
 		select {
@@ -32,14 +27,24 @@ func Process(ctx context.Context) {
 	}
 }
 
+func (p *HeavyProcess) Start() (<-chan string, <-chan struct{}) {
+	result := make(chan string)
+	done := make(chan struct{})
+	go p.do(result, done)
+	return result, done
+}
+
 func (p *HeavyProcess) do(result chan<- string, done chan<- struct{}) {
+	defer close(result)
+	defer close(done)
+
 	for i := 0; i < 5; i++ {
+		result <- fmt.Sprintf("Hi from %d", i)
+		time.Sleep(time.Second * 1)
 		if p.stopped {
 			done <- struct{}{}
 			return
 		}
-		result <- fmt.Sprintf("Hi from %d", i)
-		time.Sleep(time.Second * 1)
 	}
 	done <- struct{}{}
 }

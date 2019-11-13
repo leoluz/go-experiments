@@ -1,4 +1,4 @@
-package misc
+package main
 
 import (
 	"fmt"
@@ -14,6 +14,8 @@ type Event struct {
 	ActionLabel Action
 }
 
+type ApplicationsPerCluster map[string][]string
+
 var deploy Action = "do-deploy"
 
 func (a Action) String() string {
@@ -27,8 +29,11 @@ func NewEvent(a Action) *Event {
 }
 
 func main() {
-	e := NewEvent(deploy)
-	print(e.ActionLabel.String())
+	list := make(ApplicationsPerCluster)
+	list["one"] = []string{"leo", "luz"}
+
+	fmt.Printf("list: %v", list)
+
 }
 
 func print(message string) {
