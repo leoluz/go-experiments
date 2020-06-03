@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -31,8 +33,13 @@ func NewEvent(a Action) *Event {
 func main() {
 	list := make(ApplicationsPerCluster)
 	list["one"] = []string{"leo", "luz"}
+	fmt.Printf("list: %v\n", list)
 
-	fmt.Printf("list: %v", list)
+	path := "http://domain.com/some/dir/"
+	dirPath := path[:strings.LastIndex(path, "/")]
+	fmt.Printf("%s\n", dirPath)
+	dir, _ := filepath.Abs(path)
+	fmt.Printf("filepath.Abs: %s\n", dir)
 
 }
 

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/AppDirect/go-assert/v2/assert"
 	fs "github.com/leoluz/go-experiments/bestpractices/interfaces/example3"
+	"github.com/stretchr/testify/assert"
 )
 
 type FileMock struct {
@@ -41,8 +41,8 @@ func TestRead(t *testing.T) {
 
 		// then
 		assert.Nil(t, err)
-		assert.Equals(t, expected, actual)
-		assert.Equals(t, 1, mock.readFileCalls)
+		assert.Equal(t, expected, actual)
+		assert.Equal(t, 1, mock.readFileCalls)
 	})
 	t.Run("will return error if read fails", func(t *testing.T) {
 		// given
@@ -54,8 +54,8 @@ func TestRead(t *testing.T) {
 
 		// then
 		assert.NotNil(t, err)
-		assert.Equals(t, "", content)
-		assert.Equals(t, 1, mock.readFileCalls)
+		assert.Equal(t, "", content)
+		assert.Equal(t, 1, mock.readFileCalls)
 	})
 	t.Run("will return error if filename not informed", func(t *testing.T) {
 		// given
@@ -67,8 +67,8 @@ func TestRead(t *testing.T) {
 
 		// then
 		assert.NotNil(t, err)
-		assert.Equals(t, "", content)
-		assert.Equals(t, 0, mock.readFileCalls)
+		assert.Equal(t, "", content)
+		assert.Equal(t, 0, mock.readFileCalls)
 	})
 }
 
@@ -85,6 +85,6 @@ func TestOSRead(t *testing.T) {
 		// then
 		assert.Nil(t, err)
 		assert.NotNil(t, content)
-		//assert.Equals(t, "", content)
+		//assert.Equal(t, "", content)
 	})
 }

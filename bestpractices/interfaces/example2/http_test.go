@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/AppDirect/go-assert/v2/assert"
 	httpsend "github.com/leoluz/go-experiments/bestpractices/interfaces/example2"
+	"github.com/stretchr/testify/assert"
 )
 
 type httpSenderMock struct {
@@ -38,8 +38,8 @@ func TestDoGet(t *testing.T) {
 		// then
 		assert.Nil(t, err)
 		assert.NotNil(t, status)
-		assert.Equals(t, http.MethodGet, mock.method)
-		assert.Equals(t, 1, mock.doCount)
+		assert.Equal(t, http.MethodGet, mock.method)
+		assert.Equal(t, 1, mock.doCount)
 	})
 	t.Run("will return error if url has invalid character", func(t *testing.T) {
 		// given
@@ -52,8 +52,8 @@ func TestDoGet(t *testing.T) {
 
 		// then
 		assert.NotNil(t, err)
-		assert.Equals(t, 0, status)
-		assert.Equals(t, 0, mock.doCount)
+		assert.Equal(t, 0, status)
+		assert.Equal(t, 0, mock.doCount)
 	})
 	t.Run("will return error if request fails", func(t *testing.T) {
 		t.Skip()
@@ -68,8 +68,8 @@ func TestDoGet(t *testing.T) {
 
 		// then
 		assert.NotNil(t, err)
-		assert.Equals(t, 0, status)
-		assert.Equals(t, 1, mock.doCount)
+		assert.Equal(t, 0, status)
+		assert.Equal(t, 1, mock.doCount)
 	})
 }
 
@@ -85,6 +85,6 @@ func TestRealHttpSend(t *testing.T) {
 
 		// then
 		assert.Nil(t, err)
-		assert.Equals(t, 200, status)
+		assert.Equal(t, 200, status)
 	})
 }
