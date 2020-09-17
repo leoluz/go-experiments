@@ -40,11 +40,11 @@ func (p *HeavyProcess) do(result chan<- string, done chan<- struct{}) {
 
 	for i := 0; i < 5; i++ {
 		result <- fmt.Sprintf("Hi from %d", i)
-		time.Sleep(time.Second * 1)
 		if p.stopped {
 			done <- struct{}{}
 			return
 		}
+		time.Sleep(time.Second * 1)
 	}
 	done <- struct{}{}
 }

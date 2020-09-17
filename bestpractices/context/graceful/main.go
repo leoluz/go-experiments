@@ -18,7 +18,8 @@ func main() {
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		defer cancel()
-		fmt.Printf("Received %s signal\n", <-stop)
+		s := <-stop
+		fmt.Printf("Received %s signal\n", s)
 	}()
 
 	heavy.Process(ctx)
