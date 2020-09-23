@@ -21,5 +21,5 @@ func typeAssertion() {
 
 func printHeader(title string) {
 	fmt.Println("------------------------")
-	fmt.Println(title, ":\n")
+	fmt.Printf(title, ":\n")
 }
