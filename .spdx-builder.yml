@@ -2,3 +2,5 @@ document:
   title: "GoExperiments Bill-of-Materials"
   organization: "Acme Org"
   comment: "This is a test file"
+projects:
+- id: "go-experiments"
