@@ -8,6 +8,16 @@ var names = []string{"Katrina", "Evan", "Neil", "Adam", "Martin", "Matt",
 	"Elizabeth", "Chloe", "Samantha",
 	"Addison", "Natalie", "Mia", "Alexis"}
 
+type SomeInterface interface {
+	SomeMethod()
+}
+
+type Impl struct{}
+
+func (i *Impl) SomeMethod() {
+	fmt.Println("hi")
+}
+
 func main() {
 	maxlen := 0
 	for _, v := range names {
@@ -23,5 +33,13 @@ func main() {
 	}
 
 	fmt.Println(groups)
+
+	var sliceTest []SomeInterface
+	i := &Impl{}
+	sliceTest = append(sliceTest, i)
+	//sliceTest = append(sliceTest, nil)
+	for _, s := range sliceTest {
+		s.SomeMethod()
+	}
 
 }

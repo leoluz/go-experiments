@@ -19,8 +19,16 @@ func NewPerson(firstname, lastname string) (person *Person) {
 	return &Person{firstname, lastname}
 }
 
+func NewCat(name string) *Person {
+	return &Person{
+		Firstname: name,
+		Lastname:  "cat",
+	}
+}
+
 func main() {
-	leoluz := NewPerson("leo", "Luz")
+	leoluz := NewPerson("leo", "almeida")
+	NewPerson("leo", "luz")
 	fmt.Println(leoluz.String())
 	personJson, err := json.MarshalIndent(leoluz, "", "\t")
 	if err != nil {

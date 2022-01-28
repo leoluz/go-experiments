@@ -2,9 +2,11 @@ package main
 
 import "fmt"
 
-//"github.com/leoluz/go-experiments/opa"
+var name = "leo"
 
+// main function
 func main() {
-	fmt.Println("test")
+	fmt.Println("leo")
+	fmt.Println(name)
 	//opa.DoOPA()
 }
