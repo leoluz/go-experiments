@@ -21,7 +21,7 @@ jobs:
       id: spdx-builder
       uses: philips-software/spdx-action@v0.9.1.1
       with:
-        project: argocd
+        project: github.com/leoluz/go-experiments
         mode: ort
     - uses: actions/upload-artifact@v2
       with:

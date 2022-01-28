@@ -13,5 +13,5 @@ require (
 	github.com/stretchr/testify v1.6.0
 	github.com/yashtewari/glob-intersection v0.0.0-20180916065949-5c77d914dd0b // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
-	gotest.tools v2.2.0+incompatible // indirect
+	gotest.tools v2.2.0+incompatible
 )
