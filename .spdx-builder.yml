@@ -3,4 +3,4 @@ document:
   organization: "Acme Org"
   comment: "This is a test file"
 projects:
-- id: "GoMod::github.com/leoluz/go-experiments:"
+- id: "GoMod::github.com/leoluz/go-experiments:*"
