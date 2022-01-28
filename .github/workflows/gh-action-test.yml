@@ -6,11 +6,9 @@ jobs:
     container: spdx/spdx-sbom-generator
     steps:
       - uses: actions/checkout@v2
-      - run: |
-        pwd
-        ls -la
-      - run: |
-        spdx-sbom-generator -h
+      - run: pwd
+      - run: ls -la
+      - run: spdx-sbom-generator -h
   # publish-spdx-file:
   #   runs-on: ubuntu-latest
   #   steps:
