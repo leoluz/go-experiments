@@ -3,6 +3,10 @@ on: [push]
 jobs:
   spdx-sbom-generator:
     runs-on: ubuntu-latest
+    env:
+      spdxGeneratorVersion: v0.0.13
+      gomodFolder: .
+      uiFolder: ./ui
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
@@ -12,16 +16,20 @@ jobs:
       - name: Generate SBOM (spdx)
         id: spdx-builder
         run: |
-          wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/v0.0.13/spdx-sbom-generator-v0.0.13-linux-386.tar.gz -O generator.tar.gz
+          wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$spdxGeneratorVersion/spdx-sbom-generator-$spdxGeneratorVersion-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
-          ./spdx-sbom-generator
-          yarn install --cwd ./ui
-          ./spdx-sbom-generator -p ./ui
-          echo "::set-output name=spdx-gomod::$(realpath bom-go-mod.spdx)"
-          echo "::set-output name=spdx-yarn::$(realpath bom-yarn.spdx)"
+          if [[ ! -z $gomodFolder ]]; then
+            ./spdx-sbom-generator $gomodFolder -o /tmp
+          fi
+          if [[ ! -z $uiFolder ]]; then
+            yarn install --cwd $uiFolder
+            ./spdx-sbom-generator -p $uiFolder -o /tmp
+          fi
+          # echo "::set-output name=spdx-gomod::$(realpath bom-go-mod.spdx)"
+          # echo "::set-output name=spdx-yarn::$(realpath bom-yarn.spdx)"
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
-          path: |
-            ${{ steps.spdx-builder.outputs.spdx-gomod }}
-            ${{ steps.spdx-builder.outputs.spdx-yarn }}
+          path: /tmp/*.spdx
+            # ${{ steps.spdx-builder.outputs.spdx-gomod }}
+            # ${{ steps.spdx-builder.outputs.spdx-yarn }}
