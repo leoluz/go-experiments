@@ -11,7 +11,7 @@ jobs:
         run: |
           wget -q https://github.com/spdx/spdx-sbom-generator/releases/download/v0.0.10/spdx-sbom-generator-v0.0.10-linux-amd64.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
-          ./spdx-sbom-generator -h
+          ./spdx-sbom-generator
       - run: ls -la
 
 
