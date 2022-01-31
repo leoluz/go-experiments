@@ -15,7 +15,7 @@ jobs:
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/v0.0.13/spdx-sbom-generator-v0.0.13-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
           ./spdx-sbom-generator
-          yarn install ./ui
+          yarn install --cwd ./ui
           ./spdx-sbom-generator -p ./ui
           echo "::set-output name=spdx-gomod::$(realpath bom-go-mod.spdx)"
           echo "::set-output name=spdx-yarn::$(realpath bom-yarn.spdx)"
