@@ -10,30 +10,15 @@ jobs:
       - name: Generate SBOM (spdx)
         id: spdx-builder
         run: |
-          wget -q https://github.com/spdx/spdx-sbom-generator/releases/download/v0.0.10/spdx-sbom-generator-v0.0.10-linux-amd64.tar.gz -O generator.tar.gz
-          tar -zxf generator.tar.gz
-          ./spdx-sbom-generator
-          echo "::set-output name=spdx-file::$(realpath bom-go-mod.spdx)"
+          go install sigs.k8s.io/bom/cmd/bom
+          bom generate -n http://github.com/leoluz/go-experiments.spdx -o go-experiments.spdx
+          echo "::set-output name=spdx-file::$(realpath go-experiments.spdx)"
+        # run: |
+        #   wget -q https://github.com/spdx/spdx-sbom-generator/releases/download/v0.0.10/spdx-sbom-generator-v0.0.10-linux-amd64.tar.gz -O generator.tar.gz
+        #   tar -zxf generator.tar.gz
+        #   ./spdx-sbom-generator
+        #   echo "::set-output name=spdx-file::$(realpath bom-go-mod.spdx)"
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
           path: ${{ steps.spdx-builder.outputs.spdx-file }}
-
-
-  # publish-spdx-file:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: actions/setup-java@v1
-  #     with:
-  #       java-version: '11.0.13'
-  #   - name: Create spdx-file
-  #     id: spdx-builder
-  #     uses: philips-software/spdx-action@v0.9.1.1
-  #     with:
-  #       project: go-experiments
-  #       mode: ort
-  #   - uses: actions/upload-artifact@v2
-  #     with:
-  #       name: licenses
-  #       path: ${{ steps.spdx-builder.outputs.spdx-file }}
