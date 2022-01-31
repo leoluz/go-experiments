@@ -6,13 +6,11 @@ jobs:
     env:
       spdxGeneratorVersion: v0.0.13
       gomodFolder: .
-      uiFolder: ./ui
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
           go-version: ^1.17.2
-      - run: pwd
       - name: Generate SBOM (spdx)
         id: spdx-builder
         run: |
@@ -25,11 +23,7 @@ jobs:
             yarn install --cwd $uiFolder
             ./spdx-sbom-generator -p $uiFolder -o /tmp
           fi
-          # echo "::set-output name=spdx-gomod::$(realpath bom-go-mod.spdx)"
-          # echo "::set-output name=spdx-yarn::$(realpath bom-yarn.spdx)"
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
           path: /tmp/*.spdx
-            # ${{ steps.spdx-builder.outputs.spdx-gomod }}
-            # ${{ steps.spdx-builder.outputs.spdx-yarn }}
