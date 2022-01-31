@@ -15,9 +15,12 @@ jobs:
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/v0.0.13/spdx-sbom-generator-v0.0.13-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
           ./spdx-sbom-generator
-          ./spdx-sbom-generator -p ./ui
+          ./spdx-sbom-generator
+          echo "::set-output name=spdx-gomod::$(realpath bom-go-mod.spdx)"
+          echo "::set-output name=spdx-yarn::$(realpath bom-yarn.spdx)"
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
-          path: *.spdx
-        #   path: ${{ steps.spdx-builder.outputs.spdx-file }}
+          path: |
+            ${{ steps.spdx-builder.outputs.spdx-gomod }}
+            ${{ steps.spdx-builder.outputs.spdx-yarn }}
