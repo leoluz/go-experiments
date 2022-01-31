@@ -12,10 +12,12 @@ jobs:
       - name: Generate SBOM (spdx)
         id: spdx-builder
         run: |
-          go install sigs.k8s.io/bom/cmd/bom@v0.2.1
-          bom generate -o bom.spdx ./go.mod
-          echo "::set-output name=spdx-file::$(realpath bom.spdx)"
+          wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/v0.0.13/spdx-sbom-generator-v0.0.13-linux-386.tar.gz -O generator.tar.gz
+          tar -zxf generator.tar.gz
+          ./spdx-sbom-generator
+          ./spdx-sbom-generator -p ./ui
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
-          path: ${{ steps.spdx-builder.outputs.spdx-file }}
+          path: *.spdx
+        #   path: ${{ steps.spdx-builder.outputs.spdx-file }}
