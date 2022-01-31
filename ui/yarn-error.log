@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/lalmeida1/.nvm/versions/node/v14.18.0/bin/node /usr/local/Cellar/yarn/1.22.17/libexec/bin/yarn.js add dev dependencies
+  /Users/lalmeida1/.nvm/versions/node/v14.18.0/bin/node /usr/local/Cellar/yarn/1.22.17/libexec/bin/yarn.js install
 
 PATH: 
   /Users/lalmeida1/.yarn/bin:/Users/lalmeida1/.config/yarn/global/node_modules/.bin:/Users/lalmeida1/.nvm/versions/node/v14.18.0/bin:/Users/lalmeida1/dev/go/bin:/usr/local/opt/python/libexec/bin:/usr/local/bin:/usr/local/sbin:/bin:/bin:/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/kitty.app/Contents/MacOS:/usr/local/opt/fzf/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npmjs.intuit.com/dev: Request "https://registry.npmjs.intuit.com/dev" returned a 403
+  Error: https://registry.npmjs.intuit.com/jest: Request "https://registry.npmjs.intuit.com/jest" returned a 403
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.17/libexec/lib/cli.js:67038:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.17/libexec/lib/cli.js:140883:22)
       at Request.emit (events.js:400:28)
@@ -31,7 +31,10 @@ npm manifest:
     "name": "yarn-test",
     "version": "1.0.0",
     "main": "index.js",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+      "jest": "^27.4.7"
+    }
   }
 
 yarn manifest: 
