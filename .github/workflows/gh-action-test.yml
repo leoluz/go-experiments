@@ -13,7 +13,7 @@ jobs:
           wget -q https://github.com/spdx/spdx-sbom-generator/releases/download/v0.0.10/spdx-sbom-generator-v0.0.10-linux-amd64.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
           ./spdx-sbom-generator
-          echo "::set-output name=spdx-file::$(cat bom-go-mod.spdx)"
+          echo "::set-output name=spdx-file::$(realpath bom-go-mod.spdx)"
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
