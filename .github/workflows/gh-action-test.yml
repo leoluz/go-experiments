@@ -16,10 +16,9 @@ jobs:
         run: |
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
-          for cur in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
+          for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
           do
-            echo ">>>> $cur"
-            ./spdx-sbom-generator $cur -o /tmp
+            ./spdx-sbom-generator -p $folder -o /tmp
           done
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
       - uses: actions/upload-artifact@v2
