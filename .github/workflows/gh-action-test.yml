@@ -14,6 +14,8 @@ jobs:
           SPDX_GEN_VERSION: v0.0.13
           PROJECT_FOLDERS: ".,./ui" 
         run: |
+
+          yarn install --cwd ./ui
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
           for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
