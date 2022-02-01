@@ -34,7 +34,7 @@ jobs:
 
           # Generate SPDX for binaries analyzing the docker image
           if [[ ! -z $DOCKER_IMAGE ]]; then
-            bom generate -o /tmp/docker-image.spdx -i $DOCKER_IMAGE
+            bom generate -o /tmp/bom-docker-image.spdx -i $DOCKER_IMAGE
           fi
 
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
