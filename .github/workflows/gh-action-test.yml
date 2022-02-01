@@ -3,9 +3,6 @@ on: [push]
 jobs:
   spdx-sbom-generator:
     runs-on: ubuntu-latest
-    env:
-      SPDX_GEN_VERSION: v0.0.13
-      PROJECT_FOLDERS: ".,./ui" 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
@@ -13,12 +10,15 @@ jobs:
           go-version: ^1.17.2
       - name: Generate SBOM (spdx)
         id: spdx-builder
+        env:
+          SPDX_GEN_VERSION: v0.0.13
+          PROJECT_FOLDERS: ".,./ui" 
         run: |
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
-          for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
+          for cur in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
           do
-            ./spdx-sbom-generator $folder -o /tmp
+            ./spdx-sbom-generator $cur -o /tmp
           done
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
       - uses: actions/upload-artifact@v2
