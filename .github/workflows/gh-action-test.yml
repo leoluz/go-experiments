@@ -18,6 +18,7 @@ jobs:
           tar -zxf generator.tar.gz
           for cur in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
           do
+            echo ">>>> $cur"
             ./spdx-sbom-generator $cur -o /tmp
           done
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
