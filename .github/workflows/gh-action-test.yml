@@ -4,8 +4,9 @@ jobs:
   spdx-sbom-generator:
     runs-on: ubuntu-latest
     env:
-      spdxGeneratorVersion: v0.0.13
-      gomodFolder: .
+      SPDX_GEN_VERSION: v0.0.13
+      GOMOD_FOLDER: .
+      UI_FOLDER: ./ui
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
@@ -14,16 +15,17 @@ jobs:
       - name: Generate SBOM (spdx)
         id: spdx-builder
         run: |
-          wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$spdxGeneratorVersion/spdx-sbom-generator-$spdxGeneratorVersion-linux-386.tar.gz -O generator.tar.gz
+          wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
-          if [[ ! -z $gomodFolder ]]; then
-            ./spdx-sbom-generator $gomodFolder -o /tmp
+          if [[ ! -z $GOMOD_FOLDER ]]; then
+            ./spdx-sbom-generator $GOMOD_FOLDER -o /tmp
           fi
-          if [[ ! -z $uiFolder ]]; then
-            yarn install --cwd $uiFolder
-            ./spdx-sbom-generator -p $uiFolder -o /tmp
+          if [[ ! -z $UI_FOLDER ]]; then
+            yarn install --cwd $UI_FOLDER
+            ./spdx-sbom-generator -p $UI_FOLDER -o /tmp
           fi
+          tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
       - uses: actions/upload-artifact@v2
         with:
           name: licenses
-          path: /tmp/*.spdx
+          path: /tmp/sbom.tar.gz
