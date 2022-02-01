@@ -16,18 +16,27 @@ jobs:
         id: spdx-builder
         env:
           SPDX_GEN_VERSION: v0.0.13
+          SIGS_BOM_VERSION: v0.2.1
           PROJECT_FOLDERS: ".,./ui" 
           DOCKER_IMAGE: argoproj/argocd:${{ env.TARGET_VERSION }}
         run: |
-          echo ">>> TARGET_VERSION: $TARGET_VERSION"
-          echo ">>> DOCKER_IMAGE: $DOCKER_IMAGE"
           yarn install --cwd ./ui
+
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
+          go install sigs.k8s.io/bom/cmd/bom@$SIGS_BOM_VERSION
+
+          # Generate SPDX for project dependencies analyzing package managers
           for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
           do
             ./spdx-sbom-generator -p $folder -o /tmp
           done
+
+          # Generate SPDX for binaries analyzing the docker image
+          if [[ ! -z $DOCKER_IMAGE ]]; then
+            bom generate -o /tmp/docker-image.spdx -i DOCKER_IMAGE
+          fi
+
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
       - uses: actions/upload-artifact@v2
         with:
