@@ -8,13 +8,18 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: ^1.17.2
+      - name: Define target version
+        run: |
+          TARGET_VERSION=latest
       - name: Generate SBOM (spdx)
         id: spdx-builder
         env:
           SPDX_GEN_VERSION: v0.0.13
           PROJECT_FOLDERS: ".,./ui" 
+          DOCKER_IMAGE: argoproj/argocd:$TARGET_VERSION
         run: |
-
+          echo ">>> TARGET_VERSION: $TARGET_VERSION"
+          echo ">>> DOCKER_IMAGE: $DOCKER_IMAGE"
           yarn install --cwd ./ui
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
