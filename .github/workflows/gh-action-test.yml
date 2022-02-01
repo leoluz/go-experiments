@@ -5,8 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SPDX_GEN_VERSION: v0.0.13
-      GOMOD_FOLDER: .
-      UI_FOLDER: ./ui
+      PROJECT_FOLDERS: ".,./ui" 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
@@ -17,13 +16,10 @@ jobs:
         run: |
           wget -q https://github.com/opensbom-generator/spdx-sbom-generator/releases/download/$SPDX_GEN_VERSION/spdx-sbom-generator-$SPDX_GEN_VERSION-linux-386.tar.gz -O generator.tar.gz
           tar -zxf generator.tar.gz
-          if [[ ! -z $GOMOD_FOLDER ]]; then
-            ./spdx-sbom-generator $GOMOD_FOLDER -o /tmp
-          fi
-          if [[ ! -z $UI_FOLDER ]]; then
-            yarn install --cwd $UI_FOLDER
-            ./spdx-sbom-generator -p $UI_FOLDER -o /tmp
-          fi
+          for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
+          do
+            ./spdx-sbom-generator $folder -o /tmp
+          done
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
       - uses: actions/upload-artifact@v2
         with:
