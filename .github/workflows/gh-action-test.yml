@@ -11,6 +11,7 @@ jobs:
       - name: Define target version
         run: |
           TARGET_VERSION=latest
+          echo "TARGET_VERSION=${TARGET_VERSION}" >> $GITHUB_ENV
       - name: Generate SBOM (spdx)
         id: spdx-builder
         env:
