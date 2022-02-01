@@ -17,7 +17,7 @@ jobs:
         env:
           SPDX_GEN_VERSION: v0.0.13
           PROJECT_FOLDERS: ".,./ui" 
-          DOCKER_IMAGE: argoproj/argocd:$TARGET_VERSION
+          DOCKER_IMAGE: argoproj/argocd:${{ env.TARGET_VERSION }}
         run: |
           echo ">>> TARGET_VERSION: $TARGET_VERSION"
           echo ">>> DOCKER_IMAGE: $DOCKER_IMAGE"
