@@ -40,5 +40,5 @@ jobs:
           tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
       - uses: actions/upload-artifact@v2
         with:
-          name: licenses
+          name: sbom
           path: /tmp/sbom.tar.gz
