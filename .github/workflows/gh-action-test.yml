@@ -25,6 +25,9 @@ jobs:
           go install sigs.k8s.io/bom/cmd/bom@$SIGS_BOM_VERSION
           go install github.com/spdx/spdx-sbom-generator/cmd/generator@$SPDX_GEN_VERSION
 
+          echo ">>> $GOBIN"
+          ls $GOBIN
+
           # Generate SPDX for project dependencies analyzing package managers
           for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
           do
