@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
           go-version: 1.17.6
       - name: Define target version
@@ -24,9 +24,6 @@ jobs:
 
           go install sigs.k8s.io/bom/cmd/bom@$SIGS_BOM_VERSION
           go install github.com/spdx/spdx-sbom-generator/cmd/generator@$SPDX_GEN_VERSION
-
-          echo ">>> $GOBIN"
-          ls $GOBIN
 
           # Generate SPDX for project dependencies analyzing package managers
           for folder in $(echo $PROJECT_FOLDERS | sed "s/,/ /g")
