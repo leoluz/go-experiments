@@ -36,7 +36,7 @@ jobs:
             bom generate -o /tmp/bom-docker-image.spdx -i $DOCKER_IMAGE
           fi
 
-          tar -zcf /tmp/sbom.tar.gz /tmp/*.spdx
+          cd /tmp && tar -zcf sbom.tar.gz *.spdx
       - uses: actions/upload-artifact@v2
         with:
           name: sbom
